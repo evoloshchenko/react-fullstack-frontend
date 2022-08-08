@@ -1,7 +1,17 @@
 import Head from 'next/head';
-import Link from "next/link";
+import { useQuery } from "urql";
+import { PRODUCT_QUERY } from '../lib/query';
+
 
 export default function Home() {
+  //Fetch products from Strappi
+  const [results] = useQuery({query: PRODUCT_QUERY});
+  const {data, fetching, error} = results;
+  //Check for the data coming in
+  if (fetching) return <p>Loading...</p>
+  if(error) return <p>Oh no...{error.message}</p>
+  console.log(data);
+
   return (
     <div>
       <Head>
@@ -12,7 +22,9 @@ export default function Home() {
 
       <main>
         <h1>Hello Next</h1>
+        <p></p>
       </main>
     </div>
   )
 }
+
