@@ -1,16 +1,17 @@
-import Head from 'next/head';
+import { Gallery } from "../styles/Gallery";
+import Head from "next/head";
 import { useQuery } from "urql";
-import { PRODUCT_QUERY } from '../lib/query';
-
+import { PRODUCT_QUERY } from "../lib/query";
+import Product from "../components/Products";
 
 export default function Home() {
   //Fetch products from Strappi
-  const [results] = useQuery({query: PRODUCT_QUERY});
-  const {data, fetching, error} = results;
+  const [results] = useQuery({ query: PRODUCT_QUERY });
+  const { data, fetching, error } = results;
   //Check for the data coming in
-  if (fetching) return <p>Loading...</p>
-  if(error) return <p>Oh no...{error.message}</p>
-  console.log(data);
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no...{error.message}</p>;
+  const products = data.products.data;
 
   return (
     <div>
@@ -22,9 +23,12 @@ export default function Home() {
 
       <main>
         <h1>Hello Next</h1>
-        <p></p>
+        <Gallery>
+          {products.map((product) => (
+            <Product key={product.attributes.slug} product={product} />
+          ))}
+        </Gallery>
       </main>
     </div>
-  )
+  );
 }
-
