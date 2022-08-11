@@ -4,6 +4,7 @@ import { useQuery } from "urql";
 import { PRODUCT_QUERY } from "../lib/query";
 import Product from "../components/Products";
 
+
 export default function Home() {
   //Fetch products from Strappi
   const [results] = useQuery({ query: PRODUCT_QUERY });
