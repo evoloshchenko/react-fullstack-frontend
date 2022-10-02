@@ -13,7 +13,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 
 export default function Cart() {
-  const { cartItems, setShowCart } = useStateContext();
+  const { cartItems, setShowCart, onAdd, onRemove } = useStateContext();
   return (
     <CartWrapper onClick={() => setShowCart(false)}>
       <CartStyle onClick={(e) => e.stopPropagation()}>
@@ -26,7 +26,7 @@ export default function Cart() {
         {cartItems.length >= 1 &&
           cartItems.map((item) => {
             return (
-              <Card>
+              <Card key={item.slug}>
                 <img
                   src={item.image.data.attributes.formats.small.url}
                   alt={item.Title}
@@ -37,10 +37,10 @@ export default function Cart() {
                   <Quantity>
                     <span>Quantity</span>
                     <button>
-                      <AiFillMinusCircle />
+                      <AiFillMinusCircle onClick={() => onRemove(item)} />
                     </button>
                     <p>{item.quantity}</p>
-                    <button>
+                    <button onClick={() => onAdd(item, 1)}>
                       <AiFillPlusCircle />
                     </button>
                   </Quantity>
